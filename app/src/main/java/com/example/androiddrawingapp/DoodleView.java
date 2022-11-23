@@ -1,12 +1,12 @@
 package com.example.androiddrawingapp;
 
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.os.Bundle;
-import android.text.Layout;
+import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
@@ -20,13 +20,25 @@ public class DoodleView extends View {
 
     public DoodleView(Context context) {
         super(context);
+        init(context);
+    }
 
+    public DoodleView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        init(context);
+    }
+
+    public DoodleView(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        init(context);
+    }
+
+    private void init(Context context){
         brush.setAntiAlias(true);
         brush.setColor(Color.BLACK);
         brush.setStyle(Paint.Style.STROKE);
         brush.setStrokeJoin(Paint.Join.ROUND);
         brush.setStrokeWidth(8f);
-
         params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
     }
 

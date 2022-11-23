@@ -2,6 +2,7 @@ package com.example.androiddrawingapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity {
@@ -9,7 +10,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        DoodleView doodleView = new DoodleView(this);
-        setContentView(doodleView);
+        setContentView(R.layout.activity_main);
+
+    }
+
+    public void clear(){
     }
 }
