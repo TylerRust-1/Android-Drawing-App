@@ -1,11 +1,13 @@
 package com.example.androiddrawingapp;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.os.Bundle;
 import android.text.Layout;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 
@@ -29,4 +31,26 @@ public class DoodleView extends View {
     }
 
     @Override
+    public boolean onTouchEvent(MotionEvent event){
+        float pointX = event.getX();
+        float pointY = event.getY();
+
+        switch(event.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                path.moveTo(pointX, pointY);
+                return true;
+            case MotionEvent.ACTION_MOVE:
+                path.lineTo(pointX, pointY);
+                break;
+            default:
+                return false;
+        }
+        postInvalidate();
+        return false;
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        canvas.drawPath(path, brush);
+    }
 }
