@@ -67,7 +67,6 @@ public class DoodleView extends View {
     }
 
     public void clearCanvas() {
-        System.out.println("Here");
         path.reset();
         postInvalidate();
     }
