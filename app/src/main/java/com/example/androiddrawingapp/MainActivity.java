@@ -2,15 +2,13 @@ package com.example.androiddrawingapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
-import android.graphics.Canvas;
-import android.net.Uri;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.PopupMenu;
 
-import com.google.android.material.slider.Slider;
+import com.nvt.color.ColorPickerDialog;
 
 public class MainActivity extends AppCompatActivity {
     @Override
@@ -24,8 +22,30 @@ public class MainActivity extends AppCompatActivity {
         dv.clearCanvas();
     }
 
-    public void openMenu(View view){
+    public void openMenu(View view) {
         DoodleView dv = findViewById(R.id.doodleView);
+        ColorPickerDialog.OnColorPickerListener test = new ColorPickerDialog.OnColorPickerListener() {
+            @Override
+            public void onCancel(ColorPickerDialog dialog) {
+                //none
+            }
+
+            @Override
+            public void onOk(ColorPickerDialog dialog, int color) {
+                dv.setColor(color);
+            }
+        };
+
+        ColorPickerDialog colorPicker = new ColorPickerDialog(
+                this,
+                Color.BLACK,
+                true,
+                test);
+        colorPicker.show();
+    }
+
+    /*
+    public void openMenu(View view){
         PopupMenu popupMenu = new PopupMenu(this, view);
         Slider slider = new Slider(dv.getContext());
         popupMenu.getMenuInflater().inflate(R.menu.menu_popup, popupMenu.getMenu());
@@ -43,4 +63,5 @@ public class MainActivity extends AppCompatActivity {
         });
         popupMenu.show();
     }
+    */
 }

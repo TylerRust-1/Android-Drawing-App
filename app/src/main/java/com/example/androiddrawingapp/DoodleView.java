@@ -8,15 +8,23 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.util.AttributeSet;
+import android.util.Pair;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.FrameLayout;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DoodleView extends View {
 
+    List<Pair<Path, Integer>> path_color_list = new ArrayList<>();
     public LayoutParams params;
     private Path path = new Path();
     private Paint brush = new Paint();
+
+
 
     public DoodleView(Context context) {
         super(context);
@@ -63,11 +71,25 @@ public class DoodleView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
+        int temp = brush.getColor();
+        for (Pair<Path,Integer> path_clr : path_color_list ){
+            brush.setColor(path_clr.second);
+            canvas.drawPath( path_clr.first, brush);
+        }
+        brush.setColor(temp);
         canvas.drawPath(path, brush);
     }
 
     public void clearCanvas() {
         path.reset();
+        postInvalidate();
+    }
+
+    public void setColor(Integer color) {
+        path_color_list.add(Pair.create(path, brush.getColor()));
+        path = new Path();
+        brush.setColor(color);
+
         postInvalidate();
     }
 }
