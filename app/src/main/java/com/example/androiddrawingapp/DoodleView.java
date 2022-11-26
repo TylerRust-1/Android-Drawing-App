@@ -24,8 +24,6 @@ public class DoodleView extends View {
     private Path path = new Path();
     private Paint brush = new Paint();
 
-
-
     public DoodleView(Context context) {
         super(context);
         init(context);
@@ -48,6 +46,7 @@ public class DoodleView extends View {
         brush.setStrokeJoin(Paint.Join.ROUND);
         brush.setStrokeWidth(8f);
         params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        path_color_list.add(Pair.create(path, brush.getColor()));
     }
 
     @Override
@@ -81,15 +80,23 @@ public class DoodleView extends View {
     }
 
     public void clearCanvas() {
-        path.reset();
+        for (Pair<Path,Integer> path_clr : path_color_list ){
+            path_clr.first.reset();
+        }
         postInvalidate();
     }
 
     public void setColor(Integer color) {
-        path_color_list.add(Pair.create(path, brush.getColor()));
         path = new Path();
         brush.setColor(color);
+        path_color_list.add(Pair.create(path, brush.getColor()));
+        postInvalidate();
+    }
 
+    public void setWidth(Integer width) {
+        path = new Path();
+        brush.setStrokeWidth(width);
+        path_color_list.add(Pair.create(path, brush.getColor()));
         postInvalidate();
     }
 }

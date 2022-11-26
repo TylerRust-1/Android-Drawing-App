@@ -2,20 +2,42 @@ package com.example.androiddrawingapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Layout;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.SeekBar;
 
 import com.nvt.color.ColorPickerDialog;
 
 public class MainActivity extends AppCompatActivity {
+    SeekBar seekBar;
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        seekBar=(SeekBar)findViewById(R.id.seekBar3);
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                DoodleView dv = findViewById(R.id.doodleView);
+                dv.setWidth(i);
+                System.out.println("Hello");
+            }
+
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
     }
+
 
     public void clearCanvas(View view) {
         DoodleView dv = findViewById(R.id.doodleView);
@@ -24,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void openMenu(View view) {
         DoodleView dv = findViewById(R.id.doodleView);
-        ColorPickerDialog.OnColorPickerListener test = new ColorPickerDialog.OnColorPickerListener() {
+        ColorPickerDialog.OnColorPickerListener dialog = new ColorPickerDialog.OnColorPickerListener() {
             @Override
             public void onCancel(ColorPickerDialog dialog) {
                 //none
@@ -40,28 +62,8 @@ public class MainActivity extends AppCompatActivity {
                 this,
                 Color.BLACK,
                 true,
-                test);
+                dialog);
+
         colorPicker.show();
     }
-
-    /*
-    public void openMenu(View view){
-        PopupMenu popupMenu = new PopupMenu(this, view);
-        Slider slider = new Slider(dv.getContext());
-        popupMenu.getMenuInflater().inflate(R.menu.menu_popup, popupMenu.getMenu());
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                switch (menuItem.getItemId()){
-                    case R.id.slider:
-                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("")));
-                        return true;
-                    default:
-                        return false;
-                }
-            }
-        });
-        popupMenu.show();
-    }
-    */
 }
