@@ -1,25 +1,25 @@
 package com.example.androiddrawingapp;
 
 
+import static java.lang.Math.round;
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.PorterDuff;
 import android.util.AttributeSet;
 import android.util.Pair;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.FrameLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class DoodleView extends View {
 
-    List<Pair<Path, Integer>> path_color_list = new ArrayList<>();
+    List<Pair<Path, Pair<Integer, Integer>>> path_color_list = new ArrayList<>();
     public LayoutParams params;
     private Path path = new Path();
     private Paint brush = new Paint();
@@ -46,7 +46,7 @@ public class DoodleView extends View {
         brush.setStrokeJoin(Paint.Join.ROUND);
         brush.setStrokeWidth(8f);
         params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-        path_color_list.add(Pair.create(path, brush.getColor()));
+        path_color_list.add(Pair.create(path, Pair.create(brush.getColor(), round(brush.getStrokeWidth()))));
     }
 
     @Override
@@ -70,17 +70,16 @@ public class DoodleView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        int temp = brush.getColor();
-        for (Pair<Path,Integer> path_clr : path_color_list ){
-            brush.setColor(path_clr.second);
+        canvas.drawPath(path, brush);
+        for (Pair<Path, Pair<Integer, Integer>> path_clr : path_color_list ){
+            brush.setColor(path_clr.second.first);
+            brush.setStrokeWidth(path_clr.second.second);
             canvas.drawPath( path_clr.first, brush);
         }
-        brush.setColor(temp);
-        canvas.drawPath(path, brush);
     }
 
     public void clearCanvas() {
-        for (Pair<Path,Integer> path_clr : path_color_list ){
+        for (Pair<Path, Pair<Integer, Integer>> path_clr : path_color_list ){
             path_clr.first.reset();
         }
         postInvalidate();
@@ -89,14 +88,14 @@ public class DoodleView extends View {
     public void setColor(Integer color) {
         path = new Path();
         brush.setColor(color);
-        path_color_list.add(Pair.create(path, brush.getColor()));
+        path_color_list.add(Pair.create(path, Pair.create(brush.getColor(), round(brush.getStrokeWidth()))));
         postInvalidate();
     }
 
     public void setWidth(Integer width) {
         path = new Path();
         brush.setStrokeWidth(width);
-        path_color_list.add(Pair.create(path, brush.getColor()));
+        path_color_list.add(Pair.create(path, Pair.create(brush.getColor(), round(brush.getStrokeWidth()))));
         postInvalidate();
     }
 }

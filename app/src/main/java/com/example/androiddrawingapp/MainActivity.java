@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 DoodleView dv = findViewById(R.id.doodleView);
-                dv.setWidth(i);
+                dv.setWidth((Integer) i);
                 System.out.println("Hello");
             }
 
