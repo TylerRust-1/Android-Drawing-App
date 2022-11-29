@@ -6,6 +6,6 @@ A user is able to clear their drawing, adjust their brush size, and set their br
 
 ![Picture demo](https://github.com/TylerRust-1/Android-Drawing-App/blob/main/demo.png "Android Drawing App")
 
-###Instructions
+## Instructions
 1. Clone the project into android studio
 2. Run MainActivity.java
