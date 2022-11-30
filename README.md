@@ -9,3 +9,7 @@ A user is able to clear their drawing, adjust their brush size, and set their br
 ## Instructions
 1. Clone the project into android studio
 2. Run MainActivity.java
+
+## References
+1. Creating a Draw View https://www.youtube.com/watch?v=r8zAQTa2rfE&t=326s
+2. Smart Color Picker https://www.youtube.com/watch?v=kMW0XX2oEVA&t=0s
