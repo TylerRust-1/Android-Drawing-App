@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
     SeekBar seekBar;
@@ -91,8 +92,7 @@ public class MainActivity extends AppCompatActivity {
 
         int b = (int)(Math.random()*(100000));
         System.out.println(path);
-        //File file = new File(path + "/image" + UUID.randomUUID() + ".png");
-        File file = new File(path + "/test.png");
+        File file = new File(path + "/image" + UUID.randomUUID() + ".png");
         FileOutputStream ostream;
         try {
             file.createNewFile();
