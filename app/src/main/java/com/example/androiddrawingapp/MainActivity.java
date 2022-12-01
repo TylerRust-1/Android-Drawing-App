@@ -1,13 +1,13 @@
 package com.example.androiddrawingapp;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
@@ -17,8 +17,9 @@ import android.widget.Toast;
 import com.nvt.color.ColorPickerDialog;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.util.UUID;
+import java.io.InputStream;
 
 public class MainActivity extends AppCompatActivity {
     SeekBar seekBar;
@@ -109,9 +110,34 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    Bitmap bitmap;
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        DoodleView dv = findViewById(R.id.doodleView);
+        if (requestCode == 1) {
+            Context context = dv.getContext();
+            try {
+                dv.clearCanvas();
+                InputStream inputStream = context.getContentResolver().openInputStream(data.getData());
+                bitmap = BitmapFactory.decodeStream(inputStream);
+                dv.load(bitmap);
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    }
     public void load(View view){
         DoodleView dv = findViewById(R.id.doodleView);
-        Bitmap bmpIm = BitmapFactory.decodeFile("/storage/emulated/0/Pictures/test.png");
-        dv.load(bmpIm);
+        getImage();
+
+    }
+
+    public void getImage(){
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1);
     }
 }
