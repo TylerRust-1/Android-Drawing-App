@@ -2,4 +2,6 @@
     <string name="app_name">Android Drawing App</string>
     <string name="Clear">Clear</string>
     <string name="Brush">Brush</string>
+    <string name="Save">Save</string>
+    <string name="Load">Load</string>
 </resources>

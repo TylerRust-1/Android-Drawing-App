@@ -1,13 +1,24 @@
 package com.example.androiddrawingapp;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.widget.SeekBar;
+import android.widget.Toast;
 
 import com.nvt.color.ColorPickerDialog;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
     SeekBar seekBar;
@@ -16,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        seekBar=(SeekBar)findViewById(R.id.seekBar3);
+        seekBar=(SeekBar)findViewById(R.id.brushSize);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 DoodleView dv = findViewById(R.id.doodleView);
@@ -61,5 +72,46 @@ public class MainActivity extends AppCompatActivity {
                 dialog);
 
         colorPicker.show();
+    }
+
+    Bitmap getBitmapFromView(View view) {
+        Bitmap bitmap = Bitmap.createBitmap(
+                view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888
+        );
+        Canvas canvas = new Canvas(bitmap);
+        view.draw(canvas);
+        return bitmap;
+    }
+
+    public void save(View view) {
+        DoodleView dv = findViewById(R.id.doodleView);
+        Bitmap bitmap = getBitmapFromView(dv);
+        String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath();
+
+        int b = (int)(Math.random()*(100000));
+        System.out.println(path);
+        //File file = new File(path + "/image" + UUID.randomUUID() + ".png");
+        File file = new File(path + "/test.png");
+        FileOutputStream ostream;
+        try {
+            file.createNewFile();
+            ostream = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, ostream);
+            ostream.flush();
+            ostream.close();
+
+            Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_SHORT).show();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(), "Error: image not saved", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void load(View view){
+        DoodleView dv = findViewById(R.id.doodleView);
+        Bitmap bmpIm = BitmapFactory.decodeFile("/storage/emulated/0/Pictures/test.png");
+        dv.load(bmpIm);
     }
 }

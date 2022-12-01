@@ -4,16 +4,19 @@ package com.example.androiddrawingapp;
 import static java.lang.Math.round;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.Pair;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 
+import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +26,7 @@ public class DoodleView extends View {
     public LayoutParams params;
     private Path path = new Path();
     private Paint brush = new Paint();
+    private Bitmap buffer;
 
     public DoodleView(Context context) {
         super(context);
@@ -70,6 +74,9 @@ public class DoodleView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
+        if (buffer != null) {
+            canvas.drawBitmap(buffer, 0, 0, brush);
+        }
         canvas.drawPath(path, brush);
         for (Pair<Path, Pair<Integer, Integer>> path_clr : path_color_list ){
             brush.setColor(path_clr.second.first);
@@ -82,6 +89,7 @@ public class DoodleView extends View {
         for (Pair<Path, Pair<Integer, Integer>> path_clr : path_color_list ){
             path_clr.first.reset();
         }
+        buffer = null;
         postInvalidate();
     }
 
@@ -97,5 +105,10 @@ public class DoodleView extends View {
         brush.setStrokeWidth(width);
         path_color_list.add(Pair.create(path, Pair.create(brush.getColor(), round(brush.getStrokeWidth()))));
         postInvalidate();
+    }
+
+    public void load(Bitmap bitmap) {
+        clearCanvas();
+        buffer = bitmap;
     }
 }
