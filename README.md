@@ -13,3 +13,7 @@ A user is able to clear their drawing, adjust their brush size, and set their br
 ## References
 1. Creating a Draw View https://www.youtube.com/watch?v=r8zAQTa2rfE&t=326s
 2. Smart Color Picker https://www.youtube.com/watch?v=kMW0XX2oEVA&t=0s
+3. Save an image https://stackoverflow.com/questions/22723716/how-to-save-an-image-after-drawing-on-it
+4. Canvas reference for bitmap https://developer.android.com/reference/android/graphics/Canvas
+i. Drawing bitmap to canvas
+5. Loading image from phone https://stackoverflow.com/questions/5309190/android-pick-images-from-gallery
